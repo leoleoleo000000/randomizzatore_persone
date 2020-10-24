@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Randomizzatore persone</title>
+        <style>
+            .studente{
+                background-color: #EFC050;
+                color: white;
+                border: 2px solid black;
+                margin: 20px;
+                padding: 20px;
+            }
+            body{
+                background-color: #45B8AC;
+                text-align: center;
+            }
+            h1{
+                color: red;
+                font-family: fantasy;
+                text-align: center;
+                font-size: 300%;
+                font-weight: bold;
+            }
+
+        </style>
+        <script>
+            function generatePage(){
+                var value = document.getElementById("numero").value;
+                var container = document.getElementById("container");
+                while(container.hasChildNodes()){
+                    container.removeChild(container.lastChild);
+                }
+                var risultati = document.getElementById("ris");
+                while(risultati.hasChildNodes()){
+                    risultati.removeChild(risultati.lastChild);
+                }
+                for(i=0; i < value; i++){
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.id = "input" + i.toString();
+                    container.appendChild(input);
+                    container.appendChild(document.createElement("br"));
+                }
+                var generate = document.createElement("button");
+                generate.textContent = "Random !!!";
+                generate.addEventListener("click", function(){
+                    var value = document.getElementById("numero").value;
+                    var container = document.getElementById("container");
+                    var array = [document.getElementById("input0").value];
+                    for(i = 1; i < value; i++){
+                        array.push(document.getElementById("input" + i.toString()).value);
+                    }
+                    // mescola
+                    
+                    for(i = 0; i < value; i++){
+                        var random = Math.floor(Math.random() * value);
+                        var aux = array[random];
+                        array[random] = array[i];
+                        array[i] = aux;
+                    }
+                    print(array, value);
+                });
+                container.appendChild(generate);
+            }
+            
+            
+            function print(array, value){
+                var risultati = document.getElementById("ris");
+                while(risultati.hasChildNodes()){
+                    risultati.removeChild(risultati.lastChild);
+                }
+                for(i=0; i < value; i++){
+                    var item = document.createElement("li");
+                    item.appendChild(document.createTextNode(array[i]));
+                    item.className = "studente";
+                    risultati.appendChild(item);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Randomizzatore di persone</h1>
+        <form onsubmit="return false;">
+            <label for="fnumero" >Quante persone vuoi inserire?</label><br>
+            <input type="text" id="numero" name="numero"><br>
+            <button type="button" onclick="generatePage()">Crea</button><br><br>
+            <div id="container"></div>
+            <ol id="ris"></ol>
+        </form>
+    </body>
+</html>
